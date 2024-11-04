@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Moneda</title>
+</head>
+<body>
+    <h2>Conversor de Moneda</h2>
+    <input id="cantidad" type="text" placeholder="Introduce cantidad">
+    <button onclick="ConvertirADolares()">Convertir a dólares</button>
+    <button onclick="ConvertirAEuros()">Convertir a euros</button>
+    <p id="resultado"></p>
+
+    <script>
+        // Función para verificar si el valor es un número positivo
+        function esNumeroPositivo(valor) {
+            return !isNaN(valor) && valor > 0;
+        }
+
+        function ConvertirADolares(){
+            let cantidad = parseFloat(document.getElementById("cantidad").value);
+
+            // Verificar si el valor ingresado es un número positivo
+            if (!esNumeroPositivo(cantidad)) {
+                document.getElementById("resultado").innerHTML = "Introduce un número positivo.";
+                return;
+            }
+
+            let resultado = (cantidad * 1.09).toFixed(2); // Convierte a dólares con dos decimales
+            document.getElementById("resultado").innerHTML = `${resultado} dólares`;
+        }
+
+        function ConvertirAEuros(){
+            let cantidad = parseFloat(document.getElementById("cantidad").value);
+
+            // Verificar si el valor ingresado es un número positivo
+            if (!esNumeroPositivo(cantidad)) {
+                document.getElementById("resultado").innerHTML = "Introduce un número positivo.";
+                return;
+            }
+
+            let resultado = (cantidad * 0.92).toFixed(2); // Convierte a euros con dos decimales
+            document.getElementById("resultado").innerHTML = `${resultado} euros`;
+        }
+    </script>
+</body>
+</html>
