@@ -3,111 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario</title>
-    <script src="validar.js"></script>
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <script src="/javascript/scripts/repaso2Ej3.js"></script>
+    <link rel="stylesheet" href="/javascript/css/repaso2Ej3.css">
+    <title>Ejercicio 3</title>
+    
     <style>
-        .error{
-            color:red;
-        }
+#panel {
+    display: grid;
+    background-color:#3E6990;
+    width: 30%;
+    height: min-content;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 6px;
+    border-style: dashed; 
+}
+.ordenado {
+    display: grid;
+    grid-gap: 0.5rem;
+    justify-content: center;
+    padding: 0.6rem;
+}
+
+body {
+    background-color: #AABD8C;
+    /*Centrado*/
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+ button{
+    background-color: #F0F7EE;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
+    font-size: 12px;
+    padding: 12px;
+    width: 160px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+#validar span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+#validar span:after {
+    content: '\2794';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+} 
+
+#validar:hover span {
+    padding-right: 25px;
+}
+
+#validar:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+input::placeholder{
+    text-align: center;
+}
+input{
+    width: 200px;
+    padding: 0.5rem;
+    margin: 0.2rem;
+    border-radius: 6px;
+    border: none;
+}
     </style>
+
 </head>
 <body>
-    <label for="">Nombre:</label><input id="nombre" type="text"><span class="error" id="campo1"></span><br>
-    <label for="">Apellidos:</label><input id="apellidos" type="text"><span class="error" id="campo2"></span><br>
-    <label for="">Email:</label><input id="email" type="email"><span class="error" id="campo3"></span><br>
-    <label for="">Contraseña:</label><input id="password1" type="password" name=""><span class="error" id="campo4"></span><br>
-    <label for="">Repite contraseña:</label><input id="password2" type="password" name=""><span class="error" id="campo5"></span><br>
-    <label for="">DNI:</label><input id="dni" type="text"><span class="error" id="campo6"></span><br>
+    <div id="panel">
+        <form action="">
+            <div class="ordenado"><label>Nombre *</label><input type="text" id="campo1" required placeholder="Nombre"><span id="errornombre"></span></div>
+            <div class="ordenado"><label>Apellidos *</label><input type="text" id="campo2" required placeholder="Apellidos"><span id="errorapellidos"></span></div>
+            <div class="ordenado"><label>Correo electrónico *</label><input type="email" id="campo3" required placeholder="Correo"><span id="errorcorreo"></span></div>
+            <div class="ordenado"><label>Dirección:</label><input type="text" id="campo4" placeholder="Dirección"></div>
+            <div class="ordenado"><label>Ciudad:</label><input type="text" id="campo5" placeholder="Ciudad"></div>
+            <div class="ordenado"><label>Teléfono:</label><input type="text" id="campo6" placeholder="Teléfono"></div>
+            <div class="ordenado"><label>DNI *</label><input type="text" id="campo7" required placeholder="DNI"><span id="errorDNI"></span></div>
+            <div class="ordenado"><label>PIN *</label><input type="password" id="campo8" required placeholder="PIN"><span id="errormensajepin"></span></div>
+            <div class="ordenado"><label>PIN repetido *</label><input type="password" id="campo9" required placeholder="Repetir PIN"><span id="errormensajepin2"></span></div>
+            <p><button id="validar"><span>Enviar</span></button></p>
+        </form>
+    </div>
 
-    <label for="">Dirección:</label><input id="direccion" type="text"><span class="error" id="campo8"></span><br>
-    <label for="">Ciudad:</label><input id="ciudad" type="text"><span class="error" id="campo9"></span><br>
-    <label for="">Telefono:</label><input id="telefono" type="text"><span class="error" id="campo7"></span><br>
-
-   <!-- <label for="">Acepta política privacidad</label><input id="verificacion" type="checkbox" value="off"><span class="error" id="campo10"></span><br> -->
-    <button onclick="validar(document.getElementsByTagName('input'))">Validar</button>
 
     <script>
-        function validar(elementos){
-    let estanCorrectos = true;  //Se declara la variable estanCorrectos con el valor true (dira si los campos están llenos y son válidos)
-    for (var i=0;i<elementos.length;i++){
-        document.getElementById("campo"+(i+1).toString()).innerHTML = ""; // Por defecto el campo está OK       
-        if (elementos[i].value == "" || (i==6 && !elementos[i].checked)){
-            // Si el campo está vacío o (el campo es la casilla de verificación y no está marcada) entonces ...
-            document.getElementById("campo"+(i+1).toString()).innerHTML = "El campo " + elementos[i].id + " está vacío";
-            estanCorrectos = false;
-//Se establece el contenido del elemento HTML con el ID "campo" + (i+1).toString() a una cadena vacía. 
-//Esto se hace para borrar cualquier mensaje de error previamente mostrado.
-//Se verifica si el valor del elemento actual (elementos[i].value) está vacío ("") o si es una casilla de verificación (checkbox) que no está marcada.
-//Si alguna de estas condiciones se cumple, se establece un mensaje de error en el elemento HTML correspondiente al campo afectado. 
-//El mensaje indica que el campo está vacío.
-//Además, se cambia el valor de estanCorrectos a false para indicar que al menos uno de los campos no está lleno o no es válido.
+         function comprobarPIN (pin) {           
+            // Expresion para comprobar que tenga 8 digitos solo    let expresion = /^\d{8}$/; 
+
+            //Comprueba que la contarseña es fuerte y de 8 dígitos 
+            let expresion = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return expresion.test(pin);
         }
+
+        function calcularLetraDni(dni) {
+            let cadena = "TRWAGMYFPDXBNJZSQVHLCKET";
+            dni = parseInt(dni);
+            let posicion = dni % (cadena.length - 1);
+            return cadena[posicion];
+        }
+
+        function formatoNifValido(dni) {
+            const regex = /^\d{8}[A-Za-z]$/;
+            return regex.test(dni);
+        }
+
+
+
+        document.getElementById("validar").addEventListener('click',function(){
+            
+            let estanCorrectos = true;
+            for (var i=0;i<campos.length;i++){
+                document.getElementById("campo"+(i+1).toString()).innerHTML = "";        
+                if (elementos[i].value == "" || (i==6 && !campos[i].checked)){
+                    /*Si el campo está vacio o (el campo es la casilla de verificacion y no esta marcada) entonces...*/ 
+                    document.getElementById("campo"+(i+1).toString()).innerHTML = "El campo " + campos[i].id + " está vacío";
+                    estanCorrectos = false;
+                }
+                
+            }
         
-    }
-    if (!validarEmail()){ // Si no es válido el correo
-        document.getElementById("campo3").innerHTML = "Email no válido";        
-        estanCorrectos = false;
-    }
-    if (!validaPasswords()){ // Si no son válidas las contraseñas
-        document.getElementById("campo4").innerHTML = "La contraseña no cumple con requisitos de longitud o no coinciden";        
-        document.getElementById("campo5").innerHTML = "La contraseña no cumple con requisitos de longitud o no coinciden";
-        estanCorrectos = false;
-    }
-    if (!validarDNI()){
-        document.getElementById("campo6").innerHTML = "DNI no válido (12345678X)";
-        estanCorrectos = false;
-    }
-    return estanCorrectos;
-}
-/* Función validarEmail tomada de:
-* https://www.coderbox.net/blog/validar-email-usando-javascript-y-expresiones-regulares/
-*/
-function validarEmail(){              
-	var valido;
-	var emailField = document.getElementById('email');
-	var validEmail =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
-	if( validEmail.test(emailField.value) ){
-		valido=true;
-	}else{
-        valido=false;
-	}
-    return valido;
-} 
-function validaPasswords(){
-    // return (document.getElementById("password1").value == document.getElementById("password2").value) && document.getElementById("password2").value.length>=8;
-    let clave1 = document.getElementById("password1").value;
-    let clave2 = document.getElementById("password2").value;
-    let passwordsOK = true; // Cumple con los requisitos establecidos
-    if (clave1.length<8 || (clave1!=clave2))
-        passwordsOK = false;
-    return passwordsOK;
-}
+            //Comprobacion de que el DNI es real
+            if(formatoNifValido(dni)) {
+                let letraCalculada = calcularLetraDni(dni.substring(0, dni.length - 1));
+                let letraEscrita = dni[dni.length - 1];
+                if(letraCalculada.toLowerCase() == letraEscrita.toLowerCase()) {
+                document.getElementById("errorDNI").innerHTML ="";
+                } else {
+                document.getElementById("errorDNI").innerHTML ="El DNI escrito no es correcto";
+                }
+            } else {
+                document.getElementById("errorDNI").innerHTML ="El DNI no tiene el formato válido";
+            }
 
-function validarDNI(){
-    var letra=['T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'];
-    var cadena = document.getElementById("dni").value; // DNI Completo
-    var numero = parseInt(cadena.substring(0,8)); // Parte numérica
-    var letraUsuario = cadena[8]; // Letra escrita por el usuario
-    var letraReal = letra[numero%23]; // Letra "real" del DNI calculada según "fórmula"
-    var dniValido =true;
-    
-    if (letraUsuario!=letraReal) // Si no coincide letras es falso
-        dniValido = false;
-    return dniValido;
-}
-function limpia(){
-    let cadena = document.getElementById("cadena").value;
-    let cadenaSinEspacios = cadena.replace(/ /g,"");
-//Se utiliza el método replace() para eliminar todos los espacios en blanco de la cadena utilizando una expresión regular / /g que busca todos los espacios en blanco y los reemplaza con una cadena vacía. 
-//El resultado se almacena en la variable cadenaSinEspacios.
-    let cadenaLimpia = cadenaSinEspacios.toUpperCase();
-//Se utiliza el método toUpperCase() para convertir todos los caracteres de la cadena a mayúsculas. 
-//El resultado se almacena en la variable cadenaLimpia.
-    document.getElementById(resultado).innerHTML =  cadenaLimpia;
-// Se actualiza el contenido del elemento HTML con el ID "resultado" con el valor de cadenaLimpia. 
-//Esto mostrará la cadena limpia y en mayúsculas en la página web.
-}
+            //Comprobacion de que el PIN es de 8 dígitos y es segura
+
+            if(comprobarPIN()) {
+                document.getElementById("errormensajepin").innerHTML = "";
+                document.getElementById("errormensajepin2").innerHTML = "";
+            }else if (pin !== pinConfirmacion){
+                document.getElementById("errormensajepin").innerHTML = "Las contraseñas deben coincidir";
+                document.getElementById("errormensajepin").innerHTML = "Las contraseñas deben coincidir";
+            }else{
+                document.getElementById("errormensajepin").innerHTML = "Debe introducir una contraseña segura";
+                document.getElementById("errormensajepin2").innerHTML = "Debe introducir una contraseña segura";
+            }
+
+        });
     </script>
-
 </body>
 </html>
