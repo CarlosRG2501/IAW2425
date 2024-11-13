@@ -8,30 +8,25 @@
     <script src="jquery-3.7.1.js.js"></script>
 </head>
 <body>
-    <h1>Ejemplo de JQuery</h1>
+    <h1 class="par">Ejemplo de JQuery</h1>
     <p class="impar">1Lorem ipsum dolor sit amet consectetur adipisicing elit. In explicabo sequi dolor iusto voluptates dignissimos at cum veritatis nesciunt, veniam laboriosam, debitis, soluta fugiat! Odit, minus expedita? Nisi, incidunt debitis?</p>
     <p class="par">2Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis facere cumque culpa dolores fugiat accusamus distinctio alias aspernatur quibusdam officia voluptatem non, aliquam molestias sed numquam temporibus, doloribus quisquam minima!</p>
     <p class="impar">3Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio adipisci culpa at necessitatibus quas blanditiis delectus omnis quam hic dolor? Quam dolorum nesciunt perferendis esse, expedita sit soluta cupiditate pariatur.</p>
     <p class="par">4Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, fuga error cupiditate facilis exercitationem ipsum in consequuntur pariatur vitae consectetur soluta molestiae, excepturi praesentium, sit sed quos quidem. Adipisci, distinctio?</p>
-    <button id="ocultar">Ocultar párrafo</button>
-    <button id="mostrar">Mostrar párrafo</button>
-    <button id="alternar">Alternar</button>
+    <button id="agrandar">Agrandar</button>
+    <button id="encoger">Encoger</button>
+    
 
     <script>
         $(document).ready(function () {
             //Cuando el sitio web se haya cargado
-            $("#ocultar").click(function(){
-                $(".par").hide();
+            $("#agrandar").click(function(){
+                $(".par").css("font-size","+=2");
             })
 
-            $("#mostrar").click(function(){
-                $("p").show();
+            $("#encoger").click(function(){
+                $(".par").css("font-size","-=2");
             })
-
-            $("#alternar").click(function(){
-                $("p").toggle();
-            })
-
 
         });
 
