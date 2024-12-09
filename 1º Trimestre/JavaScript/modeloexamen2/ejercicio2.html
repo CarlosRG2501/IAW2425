@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libros</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <label for="">Introduce la ID de algun libro o una pagina de catalogo:</label>
+    <input type="text" id="numero">
+    <button id="btn-libro">Buscar libro</button>
+    <button id="btn-catalogo">Ver cátalogo</button>
+    <p id="resultado"></p>
+    <script>
+        $(document).ready(function () {
+            
+            $("#btn-libro").click(function(){
+                let numero = document.getElementById("numero").value
+                let url1 = "https://gutendex.com/books/?ids=" + numero
+                $.get(url1).done(function(datos){
+                    if (numero > 0){
+                        $("#resultado").empty()
+                        $("#resultado").append('<img src="'+ datos.results[0].formats['image/jpeg'] +'">')
+                        $("#resultado").append('<p>Titulo: '+ datos.results[0].title +'</p>')
+                        $("#resultado").append('<p>Autor: '+ datos.results[0].authors[0].name +'</p>')
+                        $("#resultado").append('<p><a href="'+ datos.results[0].formats['text/plain; charset=us-ascii'] +'" target="_blank">Descarga aquí</a></p>')
+                        $("#resultado").append('<p>Numero de descargas: '+ datos.results[0].formats.download_count +'</p>')
+                    }
+                    else $("#resultado").text("El numero no puede ser negativo")
+                }).fail(function(){
+                    $("#resultado").text("No se puede acceder a los productos")
+                })
+            })
+
+            $("#btn-catalogo").click(function(){
+                let numero = document.getElementById("numero").value
+                let url2 = "https://gutendex.com/books/?page=" + numero
+                $.get(url2).done(function(datos){
+                        $("#resultados").empty()
+                    for(var i=0; i < datos.results.length; i++){
+                        $("#resultado").append('<img src="'+ datos.results[i].formats['image/jpeg'] +'">')
+                        $("#resultado").append('<p>Titulo: '+ datos.results[i].title +'</p>')
+                        $("#resultado").append('<p>Autor: '+ datos.results[i].authors[0].name +'</p>')
+                        $("#resultado").append('<p><a href="'+ datos.results[i].formats['text/plain; charset=us-ascii'] +'" target="_blank">Descarga aquí</a></p>')
+                        $("#resultado").append('<p>Numero de descargas: '+ datos.results[i].formats.download_count +'</p>')
+                    }
+                }).fail(function(){
+                    $("#resultados").text("No se puede acceder a los productos")
+                })
+            })
+
+
+        });
+    </script>
+</body>
+</html>

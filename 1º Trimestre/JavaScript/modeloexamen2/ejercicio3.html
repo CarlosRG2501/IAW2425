@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de habitaciones</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+    <script>
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            prevText: '< Ant',
+            nextText: 'Sig >',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+        $(function () {
+            $("#datepicker").datepicker(
+                { minDate: "0D", maxDate: "+1Y"}
+            );
+        });
+
+        $(function () {
+            $("#datepicker2").datepicker(
+                { minDate: "0D", maxDate: "+1Y"}
+            );
+        });
+    </script>
+</head>
+<body>
+    <label for="tipo">Selecciona el tipo de habitación:</label>
+    <select name="habitaciones" id="tipo">
+        <option selected="selected">Individuales(25€)</option>
+        <option>Dobles(45€)</option>
+        <option>Triples(80€)</option>
+    </select><br><br>
+
+    <label for="">Numero de habitación:</label>
+    <input type="text" id="numero">
+
+    <p>Fecha de entrada: <input type="text" id="datepicker"></p>
+
+    <p>Fecha de salida: <input type="text" id="datepicker2"></p>
+
+    <button onclick="enviar()">Confirmar</button>
+    <p id="eleccion"></p>
+
+    </select>
+    <script>
+        function enviar(){
+            let tipo = document.getElementById("tipo").value
+            let numero = document.getElementById("numero").value
+            let fechaE = document.getElementById("datepicker").value
+            let fechaS = document.getElementById("datepicker2").value
+            let partes = fechaE.split("/")
+            let dia = partes[0]
+            let mes = partes[1]
+            let ano = partes[2]
+            let total1 = ano + "/" + mes + "/" + dia
+            let partes2 = fechaS.split("/")
+            let dia2 = partes2[0]
+            let mes2 = partes2[1]
+            let ano2 = partes2[2]
+            let total2 = ano2 + "/" + mes2 + "/" + dia2
+            let fecha1 = new Date(total1)
+            let fecha2 = new Date(total2)
+            if (numero == ""){
+                document.getElementById("eleccion").innerHTML = "Introduce un numero de habitación"
+            }
+            else if (isNaN(numero)){
+                document.getElementById("eleccion").innerHTML = "Eso no es numero espabila"
+            }
+            else if (numero < 0){
+                document.getElementById("eleccion").innerHTML = "Introduce un numero positivo"
+            }
+            else if (fechaE == ""){
+                document.getElementById("eleccion").innerHTML = "Introduce una fecha de entrada"
+            }
+            else if (fechaS == ""){
+                document.getElementById("eleccion").innerHTML = "Introduce una fecha de salida"
+            }
+            else if (fecha1 > fecha2){
+                document.getElementById("eleccion").innerHTML = "La fecha de salida no puede ser superior a la de entrada"
+            }
+            else{
+                let mensaje = "Has elegido una habitación " + tipo + ", el numero de tu habitación es " + numero + " y la fecha de entrada es " + fechaE + " y la fecha de salida es " + fechaS
+                document.getElementById("eleccion").innerHTML = mensaje
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+<body>
+    <label for="">Nombre:</label><input class="elementos" type="text" id="nombre" required><span id="campo1"></span><br>
+    <label for="">Apellido 1:</label><input class="elementos" type="text" id="apellido1" required><span id="campo2"></span><br>
+    <label for="">Apellido 2:</label><input class="elementos" type="text" id="apellido2" required><span id="campo3"></span><br>
+    <label for="">Correo electronico:</label><input class="elementos" type="email" id="correo" required><span id="campo4"></span><br>
+    <label for="">Descripción:</label><input type="text" id="direccion"><br>
+    <label for="">Fecha nacimiento:</label><input type="date" id="ciudad"><br>
+    <label for="">DNI:</label><input class="elementos" type="text" id="dni" required><span id="campo5"></span><br>
+    <label for="">Contraseña:</label><input class="elementos" type="password" id="PIN" required><span id="campo6"></span><br>
+    <label for="">Repetir contraseña:</label><input class="elementos" type="password" id="repetirPIN" required><span id="campo7"></span><br>
+    <label for="">Acepto el tratamiento de datos personales:</label><input class="elementos" type="checkbox" id="Acepto el tratamiento de datos personales" required><span id="campo8"></span><br>
+    <button id="validar" onclick="validar(document.getElementsByClassName('elementos'))">Validar</button><br>
+    <p id="usuario"></p>
+    <script>
+        
+        function validar(elementos){
+            let estanCorrectos = true
+            for(i=0;i<elementos.length;i++){
+                document.getElementById("campo" + (i + 1).toString()).innerHTML = ""
+                if (elementos[i].value == "" || (i==7 && !elementos[i].checked)){
+                    document.getElementById("campo" + (i + 1).toString()).innerHTML = ' El campo  "' + elementos[i].id + '" esta vacío'
+                    estanCorrectos = false
+                }
+            }
+            
+            if (!validarCorreo()){
+                if (document.getElementById("correo").value == "")
+                    document.getElementById("campo4").innerHTML = 'El campo "correo" esta vacío'
+                else
+                    document.getElementById("campo4").innerHTML = "Correo no valido"
+                estanCorrectos = false
+            } 
+
+            if (!validarDni()){
+                if (document.getElementById("dni").value == "")
+                    document.getElementById("campo5").innerHTML = 'El campo "dni" esta vacío'
+                else
+                    estanCorrectos = false
+            } 
+
+            if (!validarPin()){
+                if (document.getElementById("PIN").value == ""){
+                    document.getElementById("campo6").innerHTML = 'El campo "PIN" esta vacío'
+                    estanCorrectos = false
+                }
+
+                if (document.getElementById("repetirPIN").value == ""){
+                    document.getElementById("campo7").innerHTML = 'El campo "repetir PIN" esta vacío'
+                    estanCorrectos = false
+                }
+                    
+            }
+
+            if (estanCorrectos == true){
+                let nombre = document.getElementById("nombre").value.substring(0,1)
+                let ape1 = document.getElementById("apellido1").value.substring(0,3)
+                let ape2 = document.getElementById("apellido2").value.substring(0,3)
+                let dni = document.getElementById("dni").value.substring(5,8)
+                let usuario = nombre + ape1 + ape2 + dni
+                document.getElementById("usuario").innerHTML = "Tu nombre de usuario es: " + usuario
+            }
+
+           
+        }
+
+        function validarCorreo(){
+            let valido
+            let expresionEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
+            let correo = document.getElementById("correo").value
+            if(expresionEmail.test(correo))
+                valido = true
+            else
+                valido = false
+            return valido
+        }
+
+        function validarDni(){
+            let valido
+            let dni = document.getElementById("dni").value
+            let numDni = dni.substring(0,8)
+            let letraDni = dni.substring(8,9)
+            let dniTotal = numDni + letraDni
+            let letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E', 'T']
+            let letraCorrecta = letras[numDni % 23]
+            let formato = /\d{8}[a-z A-Z]/
+            if (!formato.test(dniTotal)){
+                document.getElementById("campo5").innerHTML = "El formato del dni no es valido"
+                return valido = false
+            }
+            else{
+                if(letraDni.toUpperCase() != letraCorrecta){
+                    document.getElementById("campo5").innerHTML = "La letra introducida no es la correcta"
+                    return valido = false
+                }
+                else{
+                    document.getElementById("campo5").innerHTML = ""
+                    return valido = true
+                }  
+            }
+            return valido
+        }
+
+        function validarPin(){
+            let valido
+            let expresion = /^.{8,}$/
+            let pin1 = document.getElementById("PIN").value
+            let pin2 = document.getElementById("repetirPIN").value
+            if (!expresion.test(pin1)){
+                document.getElementById("campo6").innerHTML = "La contraseña debe de tener al menos 8 caracteres"
+                document.getElementById("campo7").innerHTML = "La contraseña debe de tener al menos 8 caracteres"
+            }
+            else{
+                if (pin1 != pin2){
+                    document.getElementById("campo6").innerHTML = "Las contraseñas no coinciden"
+                    document.getElementById("campo7").innerHTML = "Las contraseñas no coinciden"
+                }
+            }
+            return valido
+        }
+
+    </script>
+</body>
+</html>
