@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gifs</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>Gifs</h1>
+    <label for="">Busca un Gif</label>
+    <input id="texto" type="text"><br><br>
+    <button id="boton">Buscar</button>
+    <p id="resultado"></p>
+
+    <script>
+       $(document).ready(function () {
+    $("#boton").click(function () {
+        let texto = $("#texto").val()
+
+        let url = "https://api.giphy.com/v1/gifs/search?api_key=AmkN2TOZh1P4zBHEiURkJ1hqiQGtvrBk&q=" + texto
+        $.get(url).done(function (datos) {
+        $("#resultado").empty()
+
+            for (var i = 0; i < datos.data.length; i++) {              
+                let imagen = datos.data[i].images.original.url
+                let titulo = datos.data[i].title              
+                $("#resultado").append('<p>' + '<img src="' + imagen + '"></p>');
+                $("#resultado").append("Titulo: " + titulo + "<br>");
+            }
+        })
+    });
+});
+
+    </script>
+</body>
+
+
+</html>

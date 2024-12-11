@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ec</title>
+</head>
+<body>
+    <p>Escribe los datos para obtener la energia cinetica de un objeto.</p>
+    <input type="text" id="masa" placeholder="Introduce la masa en kg">
+    <input type="text" id="velocidad" placeholder="Introduce la velocidad en m/s">
+    <button onclick="CalcularEnergia()">Calcular</button>
+    <p id="resultado"></p>
+    <p id="aclaracion"></p> 
+
+    <script>
+        function CalcularEnergia(){
+            
+            var masa = parseFloat(document.getElementById("masa").value);
+            var velocidad = parseFloat(document.getElementById("velocidad").value);
+
+           
+            if (isNaN(masa) || masa <= 0) {
+                document.getElementById("resultado").innerHTML = "Por favor, ingrese valores válidos de masa.";
+                document.getElementById("aclaracion").innerHTML = "";
+                return;
+            }
+
+            if (isNaN(velocidad) || velocidad <= 0) {
+                document.getElementById("resultado").innerHTML = "Por favor, ingrese valores válidos de velocidad.";
+                document.getElementById("aclaracion").innerHTML = "";
+                return;
+            }
+
+           
+           
+            var Ec = 1 / 2 * masa * (velocidad * velocidad);
+
+            
+            if (Ec < 10) {
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + " Joules";
+                document.getElementById("aclaracion").innerHTML = "La energia cinetica es baja";
+            } else if (Ec >= 10 && Ec <= 100) {
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + " Joules";
+                document.getElementById("aclaracion").innerHTML = "La energia cinetica es moderada";
+            } else if (Ec > 100) {
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + " Joules";
+                document.getElementById("aclaracion").innerHTML = "La energia cinetica es alta";
+            } else {
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + " Joules";
+                document.getElementById("aclaracion").innerHTML = "Valor fuera de rango";
+            }
+        }
+    </script>
+</body>
+</html>

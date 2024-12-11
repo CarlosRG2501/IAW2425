@@ -3,46 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de IMC</title>
+    <title>Calculadora de Ec</title>
 </head>
 <body>
-    <p>Escribe los datos para obtener tu índice de masa corporal (IMC).</p>
-    <input type="text" id="peso" placeholder="Introduce tu peso en kg">
-    <input type="text" id="altura" placeholder="Introduce tu altura en cm">
-    <button onclick="CalcularIMC()">Calcular IMC</button>
+    <p>Escribe los datos para obtener la energia cinetica de un objeto.</p>
+    <input type="text" id="masa" placeholder="Introduce la masa en kg">
+    <input type="text" id="velocidad" placeholder="Introduce la velocidad en m/s">
+    <button onclick="CalcularEnergia()">Calcular</button>
     <p id="resultado"></p>
-    <p id="recomendacion"></p> 
+    <p id="aclaracion"></p> 
 
     <script>
-        function CalcularIMC(){
+        function CalcularEnergia(){
             
-            var peso = parseFloat(document.getElementById("peso").value);
-            var alturaCentimetros = parseFloat(document.getElementById("altura").value);
+            var masa = parseFloat(document.getElementById("masa").value);
+            var velocidad = parseFloat(document.getElementById("velocidad").value);
 
            
-            if (isNaN(peso) || isNaN(alturaCentimetros) || peso <= 0 || alturaCentimetros <= 0) {
+            if (isNaN(masa) || masa <= 0) {
                 document.getElementById("resultado").innerHTML = "Por favor, ingrese valores válidos de peso y altura.";
                 document.getElementById("recomendacion").innerHTML = "";
                 return;
             }
 
            
-            var alturaMetros = alturaCentimetros * 0.01;
-            var IMC = peso / (alturaMetros * alturaMetros);
+           
+            var Ec = 1 / 2 * masa * (velocidad * velocidad);
 
             
-            if (IMC < 18.5) {
-                document.getElementById("resultado").innerHTML = "Su índice de masa corporal es " + IMC.toFixed(2) + ". Esto indica: Peso inferior al normal.";
-                document.getElementById("recomendacion").innerHTML = "Es recomendable consultar con un nutricionista para ganar peso de forma saludable.";
-            } else if (IMC >= 18.5 && IMC <= 24.9) {
-                document.getElementById("resultado").innerHTML = "Su índice de masa corporal es " + IMC.toFixed(2) + ". Esto indica: Peso normal.";
-                document.getElementById("recomendacion").innerHTML = "Mantenga una dieta balanceada y actividad física regular para conservar su salud.";
-            } else if (IMC >= 25.0 && IMC <= 29.9) {
-                document.getElementById("resultado").innerHTML = "Su índice de masa corporal es " + IMC.toFixed(2) + ". Esto indica: Peso superior al normal.";
-                document.getElementById("recomendacion").innerHTML = "Considere realizar más actividad física y ajustar su dieta para reducir el peso.";
+            if (Ec < 10) {
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + "Joules";
+                document.getElementById("recomendacion").innerHTML = "la energia cinetica es baja";
+            } else if (Ec >= 10 && Ec <= 100) {
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + "Joules";
+                document.getElementById("recomendacion").innerHTML = "La energia cinetica es moderada";
+            } else if (Ec > 100) {
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + "Joules";
+                document.getElementById("recomendacion").innerHTML = "La energia cinetica es alta";
             } else {
-                document.getElementById("resultado").innerHTML = "Su índice de masa corporal es " + IMC.toFixed(2) + ". Esto indica: Obesidad.";
-                document.getElementById("recomendacion").innerHTML = "Es recomendable acudir a un profesional de la salud para obtener ayuda en la pérdida de peso.";
+                document.getElementById("resultado").innerHTML = "La energía cinética es de: " + Ec.toFixed(2) + "Joules";
+                document.getElementById("recomendacion").innerHTML = "Valor fuera de rango";
             }
         }
     </script>
