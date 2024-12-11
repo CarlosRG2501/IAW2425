@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title>Formulario</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .formulario{
+            display: flex;
+            flex-direction: column;
+            margin: 1rem;
+        }
+        button {padding: 0.3rem;}
+        textarea{resize: none;}
+        input span{margin-bottom: 1rem;}
+        .error{color: red; margin-bottom: 1rem;}
+    </style>
+</head>
+<body>
+    <form id="formulario" method="post">
+        <div class="formulario">
+            <label for="">*Nombre: </label>
+            <input name="nombre" type="text" required>
+            <span class="error"></span>
+        </div>
+        <div class="formulario">
+            <label for="">*Apellido 1: </label>
+            <input name="apellido1" type="text" required>
+            <span class="error"></span>
+        </div>
+        <div class="formulario">
+            <label for="">*Apellido 2: </label>
+            <input name="apellido2" type="text" required>
+            <span class="error"></span>
+        </div>
+        <div class="formulario">
+            <label for="">*DNI: </label>
+            <input name="dni" type="text" required id="dni">
+            <span id="errorDNI"></span>
+        </div>
+        <div class="formulario">
+            <label for="">*Correo: </label>
+            <input name="correo" type="email" id="email" required>
+            <span id="errorEmail"></span>
+        </div>
+        <div class="formulario">
+            <label for="">*Contraseña: </label>
+            <input name="contraseña" type="password" id="Password" required>
+            <span id="password"></span>
+        </div>
+        <div class="formulario">
+            <label for="">*Repetir contraseña: </label>
+            <input name="repetir_contraseña" type="password" id="Password2" required>
+            <span id="password2"></span>
+        </div>
+        <div class="formulario">
+            <label for="">Teléfono: </label>
+            <input name="telefono" type="text">
+        </div>
+        <div class="formulario">
+            <label for="">Descripción: </label>
+            <textarea name="descripcion"></textarea>
+        </div>
+        <div class="formulario">
+            <label for="">*Aceptar política de privacidad: </label>
+            <input name="tratamientoDatos" type="checkbox" id="tratamientoDatos">
+            <span id="aceptar"></span>
+        </div>
+        <div class="formulario">
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $("#formulario").submit(function(e){
+                e.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+                // Variables para almacenar los datos del formulario
+                var nombre = $("input[name='nombre']").val();
+                var apellido1 = $("input[name='apellido1']").val();
+                var apellido2 = $("input[name='apellido2']").val();
+                var dni = $("input[name='dni']").val();
+                var correo = $("input[name='correo']").val();
+                var contraseña = $("input[name='contraseña']").val();
+                var repetirContraseña = $("input[name='repetir_contraseña']").val();
+                var telefono = $("input[name='telefono']").val();
+                var descripcion = $("textarea[name='descripcion']").val();
+                var tratamientoDatos = $("#tratamientoDatos").is(":checked") ? 1 : 0;
+
+                // Funciones de validación
+                function validarDNI(dni) {
+                    var LetrasPosibles = 'TRWAGMYFPDXBNJZSQVHLCKET';
+                    var expresionDNI = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
+                    var DNI = dni.toString().toUpperCase();
+                    if (!expresionDNI.test(DNI)) return false;
+                    var letraDNI = DNI.substr(-1);
+                    var cadenaDNI = parseInt(DNI.substr(0, 8)) % 23;
+                    return LetrasPosibles.charAt(cadenaDNI) === letraDNI;
+                }
+
+                function validarEmail(email) {
+                    var expresionEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+                    return expresionEmail.test(email);
+                }
+
+                function validarPassword() {
+                    return contraseña === repetirContraseña;
+                }
+
+                // Validar los campos antes de enviar
+                var errores = false;
+
+                if (nombre == "" || apellido1 == "" || apellido2 == "" || dni == "" || correo == "" || contraseña == "" || repetirContraseña == "" || !tratamientoDatos) {
+                    $(".error").text("Todos los campos obligatorios deben ser completados.");
+                    errores = true;
+                }
+
+                if (!validarDNI(dni)) {
+                    $("#errorDNI").text("DNI inválido.");
+                    errores = true;
+                } else {
+                    $("#errorDNI").text("");
+                }
+
+                if (!validarEmail(correo)) {
+                    $("#errorEmail").text("Correo inválido.");
+                    errores = true;
+                } else {
+                    $("#errorEmail").text("");
+                }
+
+                if (!validarPassword()) {
+                    $("#password").text("Las contraseñas no coinciden.");
+                    $("#password2").text("Las contraseñas no coinciden.");
+                    errores = true;
+                } else {
+                    $("#password").text("");
+                    $("#password2").text("");
+                }
+
+                if (errores) return; // Si hay errores, no enviar el formulario
+
+                // Si todo es válido, enviar el formulario usando AJAX
+                $.ajax({
+                    url: 'obtener_formulario.php', // Archivo PHP al que se enviarán los datos
+                    type: 'POST',
+                    data: {
+                        nombre: nombre,
+                        apellido1: apellido1,
+                        apellido2: apellido2,
+                        dni: dni,
+                        correo: correo,
+                        contraseña: contraseña,
+                        telefono: telefono,
+                        descripcion: descripcion,
+                        tratamientoDatos: tratamientoDatos
+                    },
+                    success: function(response) {
+                        // Manejar la respuesta del servidor
+                        alert('Formulario enviado con éxito');
+                        console.log(response); // Mostrar la respuesta del servidor en la consola
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Hubo un error al enviar el formulario');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 
 <h2>Pinos</h2>
 
-<form action="pinito.php" method="post">
+<form action="pino2.php" method="post">
   Cantidad de nivel:<br>
   <input type="number" name="nivel" value="nivel">
   <br>
